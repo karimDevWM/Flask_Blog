@@ -1,11 +1,22 @@
+from crypt import methods
+from unicodedata import name
 from flask import Flask, render_template
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField
+from wtforms.validators import DataRequired
 
 
 ## create flask instance, (__name__) helps flask to find static files in the project
 app = Flask(__name__)
+app.config['SECRET_KEY'] = "my super secret that no one know"
 
 if __name__ == '__main__':
     app.run()
+
+# create a form class
+class NamerForm(FlaskForm):
+    name = StringField("what's your name", validators=[DataRequired()])
+    submit = SubmitField("Submit")
 
 ## create a route decorator
 # @app.route('/')
@@ -53,3 +64,16 @@ def page_not_found(e):
 def page_not_found(e):
     return render_template("500.html"), 500
 
+# create name page
+@app.route('/name', methods=['GET', 'POST'])
+def name():
+    name = None
+    form = NamerForm()
+    # validate form
+    if form.validate_on_submit():
+        name = form.name.data
+        form.name.data = ''
+    return render_template("name.html",
+                           name = name,# refers to line 70
+                           # refers to line 71
+                           form = form)
