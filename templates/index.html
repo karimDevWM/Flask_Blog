@@ -1,27 +1,31 @@
-<h1>Hello World!</h1>
+{% extends 'base.html' %}
 
-<p>This is my first web page!!!</p>
+    {% block content %}
+        <h1>Hello World!</h1>
 
-<p>my name is {{ first_name }}</p>
+        <p>This is my first web page!!!</p>
 
-<p>{{ stuff|safe }}</p>
+        <p>my name is {{ first_name }}</p>
 
-{#single curly brackets used for logic operation and loops.
-    double curly brackets user for variables #}
-<h3> Favorite Pizza : </h3>
-    {% for topping in favorite_pizza%}
-        {% if topping == 41 %}
-            {{ topping+100 }}
-        {% else %}
-            {{ topping }}<br>
-        {% endif %}
-    {% endfor %}
-<br>
-<br>
+        <p>{{ stuff|safe }}</p>
 
-{# accessing to an item from a list by his index #}
-{{ favorite_pizza.0 }}
-<br>
-<br>
-{# math operations #}
-{{ favorite_pizza.3+10 }}
+        {#single curly brackets used for logic operation and loops.
+            double curly brackets user for variables #}
+        <h3> Favorite Pizza : </h3>
+            {% for topping in favorite_pizza%}
+                {% if topping == 41 %}
+                    {{ topping+100 }}
+                {% else %}
+                    {{ topping }}<br>
+                {% endif %}
+            {% endfor %}
+        <br>
+        <br>
+
+        {# accessing to an item from a list by his index #}
+        {{ favorite_pizza.0 }}
+        <br>
+        <br>
+        {# math operations #}
+        {{ favorite_pizza.3+10 }}
+    {% endblock %}
