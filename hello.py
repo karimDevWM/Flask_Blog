@@ -1,14 +1,23 @@
+# import os
+# from dotenv import load_dotenv
 from crypt import methods
 from unicodedata import name
-from flask import Flask, render_template
+from flask import Flask, render_template, flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 
-
 ## create flask instance, (__name__) helps flask to find static files in the project
 app = Flask(__name__)
-app.config['SECRET_KEY'] = "my super secret that no one know"
+
+if app.config['ENV'] == "production":
+    app.config.from_object("config.ProductionConfig")
+elif app.config['ENV'] == "testing":
+    app.config.from_object("config.TestingConfig")
+else:
+    app.config.from_object("config.DevelopmentConfig")
+    
+print(app.config['ENV'])
 
 if __name__ == '__main__':
     app.run()
@@ -36,6 +45,7 @@ striptags
 
 @app.route('/')
 def index():
+    print(app.config['ENV'])
     first_name = 'Karim'
     stuff = 'this is <strong>bold</strong> text'
     favorite_pizza = ["Pepperoni", "Cheeze", "Mushrooms", 41]
@@ -73,7 +83,10 @@ def name():
     if form.validate_on_submit():
         name = form.name.data
         form.name.data = ''
+        flash("Form submitted successfully !")
+    
     return render_template("name.html",
-                           name = name,# refers to line 70
-                           # refers to line 71
-                           form = form)
+                           name = name,
+                           form = form
+                           )
+    
