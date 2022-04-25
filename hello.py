@@ -76,9 +76,16 @@ def add_user():
     form = UserForm()
     if form.validate_on_submit():
         user = Users.query.filter_by(email=form.email.data).first()
+        if user is None:
+            user = Users(name=form.name.data,
+                         email=form.email.data)
+            db.session.add(user)
+            db.session.commit()
+        name = form.name.data
         form.name.data = ''
-        flash("Form submitted successfully !")
-    return render_template("add_user.html", form = form)
+        form.email.data = ''
+        flash("user added successfully !")
+    return render_template("add_user.html", form=form, name=name)
 
 @app.route('/')
 def index():
