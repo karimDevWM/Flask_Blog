@@ -4,12 +4,33 @@ from crypt import methods
 from unicodedata import name
 from flask import Flask, render_template, flash
 from flask_wtf import FlaskForm
+import sqlalchemy
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 ## create flask instance, (__name__) helps flask to find static files in the project
 app = Flask(__name__)
 
+# Add Database
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# initialize the database
+db = SQLAlchemy(app)
+# create the model
+class Users(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    email = db.Column(db.String(120), nullable=False, unique=True)
+    date_added = db.Column(db.DateTime, default=datetime.utcnow)
+# create a string
+def __repr__(self):
+    return '<Name %r>' % self.name
+
+
+
+# set env variable
 if app.config['ENV'] == "production":
     app.config.from_object("config.ProductionConfig")
 elif app.config['ENV'] == "testing":

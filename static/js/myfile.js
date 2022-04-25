@@ -1,1 +1,1 @@
-document.getElementById('demo').innerHTML = "this wa created by javascript"
+document.getElementById('demo').innerHTML = "this was created by javascript";

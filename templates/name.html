@@ -11,13 +11,13 @@
 {% endfor %} {% if name %}
 <h1>Hello {{ name }}</h1>
 <br>
-<img src="{{ url_for('static', filename='images/photo.png') }}" width="1000" alt=""> {% else %}
+<img src="{{ url_for('static', filename='images/photo.png') }}" width="1000" alt="">
+<br> <br>
+<p id="demo">this is stuff ...</p>{% else %}
 <h1>What's your name ?</h1>
 <br>
 <form action="" method="POST">
     {{ form.hidden_tag() }} {{ form.name.label(class="form-label") }} {{ form.name(class="form-control") }}
     <br> {{ form.submit(class="btn btn-primary") }}
 </form>
-{% endif%} 
-
-{% endblock %}
+{% endif%} {% endblock %}
