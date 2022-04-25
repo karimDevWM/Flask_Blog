@@ -43,6 +43,12 @@ print(app.config['ENV'])
 if __name__ == '__main__':
     app.run()
 
+# create a form class for database
+class UserForm(FlaskForm):
+    name = StringField("Name", validators=[DataRequired()])
+    email = StringField("Email", validators=[DataRequired()])
+    submit = SubmitField("Submit")
+
 # create a form class
 class NamerForm(FlaskForm):
     name = StringField("what's your name", validators=[DataRequired()])
@@ -63,6 +69,16 @@ title
 trim
 striptags
 '''
+
+@app.route('/user/add', methods=['GET', 'POST'])
+def add_user():
+    name = None
+    form = UserForm()
+    if form.validate_on_submit():
+        user = Users.query.filter_by(email=form.email.data).first()
+        form.name.data = ''
+        flash("Form submitted successfully !")
+    return render_template("add_user.html", form = form)
 
 @app.route('/')
 def index():
