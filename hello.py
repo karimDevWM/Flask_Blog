@@ -14,7 +14,13 @@ from datetime import datetime
 app = Flask(__name__)
 
 # Add Database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+
+# mysql database
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:'
+
+# sqlite database
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # initialize the database
 db = SQLAlchemy(app)
@@ -70,7 +76,7 @@ trim
 striptags
 '''
 
-@app.route('/user/add', methods=['GET', 'POST'])
+@app.route('/add_user', methods=['GET', 'POST'])
 def add_user():
     name = None
     form = UserForm()
@@ -82,10 +88,16 @@ def add_user():
             db.session.add(user)
             db.session.commit()
         name = form.name.data
+        # clear the form
         form.name.data = ''
         form.email.data = ''
         flash("user added successfully !")
-    return render_template("add_user.html", form=form, name=name)
+    # hold database data ordered by there date_added in our_users variable
+    our_users = Users.query.order_by(Users.date_added)
+    return render_template("add_user.html", form=form, 
+                                            name=name, 
+                                            # fetch our_users table variable in the rendered template
+                                            our_users = our_users)
 
 @app.route('/')
 def index():
@@ -118,7 +130,7 @@ def page_not_found(e):
 def page_not_found(e):
     return render_template("500.html"), 500
 
-# create name page
+# create name form
 @app.route('/name', methods=['GET', 'POST'])
 def name():
     name = None

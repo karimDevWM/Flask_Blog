@@ -1,0 +1,5 @@
+1) afin de démarrer l'appli : 
+    export FLASK_APP=hello
+
+2) choisir entre environnement de développement ou de production : 
+    export FLASK_ENV=development or production
