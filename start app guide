@@ -3,3 +3,7 @@
 
 2) choisir entre environnement de développement ou de production : 
     export FLASK_ENV=development or production
+
+3) créer la base de donnée
+    décommenter la ligne 11 du fichier "create_db.py"
+    python create_db.py

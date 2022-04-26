@@ -16,7 +16,7 @@ app = Flask(__name__)
 # Add Database
 
 # mysql database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root@localhost/our_users'
 
 # sqlite database
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
@@ -76,7 +76,7 @@ trim
 striptags
 '''
 
-@app.route('/add_user', methods=['GET', 'POST'])
+@app.route('/user/add', methods=['GET', 'POST'])
 def add_user():
     name = None
     form = UserForm()
@@ -101,7 +101,7 @@ def add_user():
 
 @app.route('/')
 def index():
-    print(app.config['ENV'])
+    # print(app.config['ENV'])
     first_name = 'Karim'
     stuff = 'this is <strong>bold</strong> text'
     favorite_pizza = ["Pepperoni", "Cheeze", "Mushrooms", 41]
